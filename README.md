@@ -9,10 +9,10 @@ Adds a **记忆** panel in Orca's right sidebar. Clicking it sends `dsh-memory o
 Orca → Settings → Plugins → Install plugin → **Git URL**:
 
 ```text
-https://github.com/EternalNight996/memory-eternal-orca#v0.12.0
+https://github.com/EternalNight996/memory-eternal-orca#v0.12.1
 ```
 
-Orca pins the install to the `v0.12.0` tag.
+Orca pins the install to the `v0.12.1` tag.
 
 ## Install from a local folder
 

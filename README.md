@@ -1,57 +1,45 @@
-# Memory Atlas for Orca
+# Orca plugin — Memory Atlas 启动器
 
-Standalone Orca plugin package for [memory-eternal](https://github.com/EternalNight996/memory-eternal).
+在 Orca 右侧栏添加一个「记忆」面板，一键在终端执行 `dsh-memory open`，打开本地 Memory Atlas Web UI。
 
-Adds a **记忆** panel in Orca's right sidebar. Clicking it sends `dsh-memory open` to the selected terminal, opening the same Memory Atlas Web UI used by DSH/web.
+## 安装
 
-## Install with Orca Git URL (recommended)
+### 推荐：Git URL
 
-Orca → Settings → Plugins → Install plugin → **Git URL**:
-
-```text
-https://github.com/EternalNight996/memory-eternal-orca#v0.13.0
-```
-
-Orca pins the install to the `v0.13.0` tag.
-
-## Install from a local folder
-
-Orca → Settings → Plugins → Install plugin → **Local folder**:
+Orca → Settings → Plugins → Install plugin → **Git URL**：
 
 ```text
-<path-to-this-folder>
+https://github.com/EternalNight996/memory-eternal-orca#v0.12.1
 ```
 
-The folder must contain `orca-plugin.json` at its root.
+Orca 会固定到 `v0.12.0` tag。
 
-## Requirements
+### 本地目录
 
-- Orca `>= 1.4.0`
-- `memory-eternal` installed on the machine
-- `dsh-memory` available in the terminal used by Orca
-
-Check:
+1. 确认本机已安装并运行 `memory-eternal`（默认 Web 服务 `http://127.0.0.1:7999/`）。
+2. 确认终端能找到 CLI：
 
 ```bash
 dsh-memory --help
 ```
 
-If it is missing, use the full path under your DSH profile, for example:
+3. 在 Orca 中安装本目录：
 
 ```text
-C:\Users\<you>\.dsh\profiles\desktop\node_modules\.bin\dsh-memory.cmd open
+Orca → Plugins → Install plugin → 选择 orca-plugin/
 ```
 
-## Permissions
+4. 打开右侧栏的「记忆」图标，选择终端，点「打开 Memory Atlas」。
 
-- `workspace:read` — read the focused worktree's terminal list
-- `terminal:send` — send `dsh-memory open` to the selected terminal
+## 它做什么
 
-No card writes, no approve/reject, no agent permissions.
+- 调 Orca 官方 `workspace.readContext` 读取当前工作区终端
+- 调 Orca 官方 `terminal.sendText` 执行 `dsh-memory open`
+- 不 iframe、不 fetch、不复制第二套 UI
 
-## Why a launcher, not an iframe
+## 为什么不是完整内嵌 UI
 
-Orca plugin panels use a strict sandbox CSP:
+Orca panel 使用严格沙箱 CSP：
 
 ```text
 default-src 'none'
@@ -59,8 +47,12 @@ connect-src 'none'
 img-src data:
 ```
 
-The panel therefore cannot iframe `http://127.0.0.1:7999` or fetch the local API. The panel opens the Web UI instead; review still happens in the Web UI, with the human in control.
+因此 panel 内不能 iframe `127.0.0.1:7999`、不能 fetch API、不能 `window.open`。
+完整 Memory Atlas 仍由 Web UI 提供；Orca 只做官方能力内的启动器。
 
-## License
+## 权限
 
-MIT
+- `workspace:read`：读取当前工作区终端列表
+- `terminal:send`：向指定终端发送命令
+
+没有任何内存卡写入、审核批准或 agent 权限。
